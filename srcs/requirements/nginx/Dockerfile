@@ -1,22 +1,25 @@
-FROM alpine:latest
+FROM alpine:3.14
 
-# Mettre à jour et installer Nginx, OpenSSL dans une seule commande pour réduire les couches
+# Mettre à jour et installer les paquets nécessaires
 RUN apk update && apk upgrade && \
-    apk add nginx openssl && \
-    mkdir -p /etc/nginx/ssl /var/run/nginx /var/log/nginx && \
-    chown -R nginx:nginx /var/run/nginx /var/log/nginx
-    # openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt \
-    # -keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=login.42.fr/UID=login"
+    apk add --no-cache \
+    php8.0 \
+    php8.0-fpm \
+    php8.0-mysqli \
+    wget \
+    mariadb-client \
+    && mkdir -p /var/www/wordpress /var/run/php
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
+# Configuration des permissions
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 
-COPY conf/default.conf /etc/nginx/nginx.conf
-# COPY conf/nginx.conf /etc/nginx/nginx.conf
-# COPY tool/start_ngx.sh /usr/local/start_ngx.sh
-# RUN chmod +x /usr/local/start_ngx.sh
+# Copier la configuration de php-fpm et le script de démarrage
+COPY conf/www.conf /etc/php8/php-fpm.d/www.conf
+COPY tool/start_wdp.sh /usr/local/start_wdp.sh
+RUN chmod +x /usr/local/start_wdp.sh
 
-# Exposer le port 80 pour Nginx
-EXPOSE 80
+# Exposer le port pour PHP-FPM
+EXPOSE 9000
 
-# Commande pour démarrer Nginx en mode foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Commande d'entrée
+ENTRYPOINT ["sh", "/usr/local/start_wdp.sh"]

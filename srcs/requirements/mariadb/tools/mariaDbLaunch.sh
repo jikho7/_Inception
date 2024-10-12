@@ -5,13 +5,11 @@ echo "------------------------------- MARIADB START ----------------------------
 
 mkdir -p /run/mysqld
 
-chown -R mysql:mysql /var/lib/mysql;
-chown -R mysql:mysql /run/mysqld;
+# chown -R mysql:mysql /var/lib/mysql;
+# chown -R mysql:mysql /run/mysqld;
 
-# Lancement de mariadb en arrière plan
-# mysqld --user=mysql --datadir=/var/lib/mysql &
-
-# pid=$!
+chown -R 100:101 /var/lib/mysql  # launch mariadb container, do docker exec -it mariadb bash and got uid=100(mysql) gid=101(mysql) groups=101(mysql),101(mysql)
+chown -R 100:101 /run/mysqld
 
 mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
 
@@ -31,20 +29,4 @@ EOF
 
 mysqld --user=mysql --bootstrap < /db_file
 
-# mariadb-client -u mysql -e "ALTER USER 'mysql'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
-# mariadb-client -u mysql -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
-# mariadb-client -u mysql -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-# mariadb-client -u mysql -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';"
-# mariadb-client -u mysql -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
-
-# Affichage des bases de données actuelles et des utilisateurs
-# echo "------------------"
-# mysqld -u mysql -p"${MYSQL_ROOT_PASSWORD}" -e "SHOW DATABASES;"
-# echo "------------------"
-# mysqld -u mysql -p"${MYSQL_ROOT_PASSWORD}" -e "SELECT User FROM mysql.user;"
-# echo "------------------"
-
-# Remplacement du processus shell par mysqld
 exec /usr/bin/mysqld --user=mysql --console 
-
-#-datadir=/var/lib/mysql

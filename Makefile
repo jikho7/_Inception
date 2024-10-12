@@ -1,7 +1,7 @@
 NAME = inception
 PATH_DOCKER_COMPOSE = ./srcs/docker-compose.yml
-PATH_V_WORDPRESS = /home/jikho/data/wordpress
-PATH_V_MARIADB = /home/jikho/data/mariadb
+PATH_V_WORDPRESS = /home/jdefayes/data/wordpress
+PATH_V_MARIADB = /home/jdefayes/data/mariadb
 # PATH_TO_ENV_FILE = /Users/francois-xavier/Desktop/.private_env
 PATH_TO_ENV_FILE = ./srcs/.env
 
