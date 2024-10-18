@@ -1,5 +1,7 @@
 echo "------------------------------- MARIADB START -------------------------------------"
 
+sleep 15
+
 # Initialisation de la base de données
 # mysqld --initialize --user=mysql --datadir=/var/lib/mysql;
 
@@ -17,7 +19,7 @@ echo "Initialized the db..."
 
 cat << EOF > /db_file
 DELETE FROM mysql.user WHERE User='';
-DROP DATABASE test;
+DROP DATABASE IF EXISTS test;
 DELETE FROM mysql.db WHERE Db='test';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';

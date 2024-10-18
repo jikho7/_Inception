@@ -12,15 +12,27 @@ waitForMariaDB() {
 
     if [ $COUNTER -eq $MAX_RETRIES ]; then
         echo "MariaDB not ready after $MAX_RETRIES attempts. Exiting."
+        exit 1
+    fi
+}
+
+checkPHPFPM() {
+    if pgrep php-fpm > /dev/null; then
+        echo "PHP-FPM is running"
+    else
+        echo "PHP-FPM is not running, starting PHP-FPM"
+        /usr/sbin/php-fpm81 -F
     fi
 }
 
 main() {
     cd /var/www/html
     waitForMariaDB
-    echo "going to run "
+    echo "MariaDB is ready, going to run"
+    checkPHPFPM
 }
 
 main
 
+# Keep the container running
 sleep 9000000
