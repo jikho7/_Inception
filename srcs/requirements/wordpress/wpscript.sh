@@ -36,6 +36,3 @@ main
 
 # Keep the container running
 sleep 9000000
-
-mariadb    | 2024-10-20  0:47:34 0 [Note] mariadbd: ready for connections.
-mariadb    | Version: '11.5.2-MariaDB-ubu2404'  socket: '/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution
