@@ -45,6 +45,8 @@ services:
     restart: always
     networks:
       - my-network
+    expose :
+      - 3306
 
 volumes:
   db_v:
