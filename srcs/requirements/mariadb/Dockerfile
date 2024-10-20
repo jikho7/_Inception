@@ -1,10 +1,6 @@
 FROM alpine
 
 # Mise à jour et installation de MariaDB
-# RUN apt-get update -y && \
-#     apt-get upgrade -y && \
-#     apt-get install -y mariadb-server
-
 RUN apk update && apk add mariadb mariadb-client
 
 # Copier le script de démarrage dans le conteneur

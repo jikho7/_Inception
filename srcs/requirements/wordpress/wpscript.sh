@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MAX_RETRIES=30
+MAX_RETRIES=60
 COUNTER=0
 
 waitForMariaDB() {
@@ -21,7 +21,7 @@ checkPHPFPM() {
         echo "PHP-FPM is running"
     else
         echo "PHP-FPM is not running, starting PHP-FPM"
-        /usr/sbin/php-fpm81 -F
+        /usr/sbin/php-fpm81 -F --fpm-config /etc/php81/php-fpm.conf 
     fi
 }
 
@@ -36,3 +36,6 @@ main
 
 # Keep the container running
 sleep 9000000
+
+mariadb    | 2024-10-20  0:47:34 0 [Note] mariadbd: ready for connections.
+mariadb    | Version: '11.5.2-MariaDB-ubu2404'  socket: '/run/mysqld/mysqld.sock'  port: 3306  mariadb.org binary distribution

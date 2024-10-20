@@ -20,15 +20,24 @@ RUN wget https://wordpress.org/latest.tar.gz && \
     tar -xzf latest.tar.gz --strip-components=1 && \
     rm latest.tar.gz
 
-# # Assign ownership to the www-data user
-# RUN chown -R www-data:www-data /var/www
+# Verifie si groupe et user www-data existe. si true, permet de continuer l execution
+RUN addgroup -S www-data || true && adduser -S -G www-data www-data || true
+RUN addgroup -S wordpress_user || true && adduser -S wordpress_user -G wordpress_user || true
 
+# CREATION FICHIER info.php
+RUN mkdir -p /var/www/html && \
+    echo "<?php phpinfo();?>" > /var/www/html/info.php
+
+# Assign ownership to the www-data user
+RUN chown -R www-data:www-data /var/www/html
 # Set permissions on directories and files
-RUN chmod -R 755 /var/www
+RUN chmod -R 755 /var/www/html
 
-# Copy the WordPress configuration file
+# Copy the WordPress et Php configuration file et modifie permissions pour fichier wordpress_pool.conf 
 COPY conf/wp-config.php /var/www/html/
-COPY conf/www.conf /etc/php/php-fpm.d/www.conf
+COPY conf/wordpress_pool.conf /etc/php81/php-fpm.d/wordpress_pool.conf
+RUN chown www-data:www-data /etc/php81/php-fpm.d/wordpress_pool.conf && \
+    chmod 644 /etc/php81/php-fpm.d/wordpress_pool.conf
 COPY wpscript.sh /wpscript.sh
 RUN chmod +x /wpscript.sh
 
@@ -39,7 +48,7 @@ ENV WORDPRESS_DB_HOST=mariadb:3306 \
     WORDPRESS_DB_NAME=wordpress
 
 # Expose the port for PHP-FPM
-EXPOSE 9000
+EXPOSE 9001
 
 # Command to start PHP-FPM
 CMD ["sh", "/wpscript.sh"]

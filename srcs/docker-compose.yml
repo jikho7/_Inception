@@ -1,19 +1,19 @@
 services:
-  nginx: # DONE
+  nginx:
     #image: nginx:latest
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
+    networks:
+      - my-network
     depends_on:
       - wordpress
     container_name: nginx
     volumes:
       - wordpress_v:/var/www/html
     ports:
-      - "8080:80" # mapping des ports conteneur/hote mettre 443 a cette pute d nginx, host:container
+      - "8080:80" # mapping des ports conteneur/hote mettre 443 nginx, host:container
     privileged: true
-    networks:
-      - my-network
 
   wordpress:
     build:
@@ -24,7 +24,7 @@ services:
       - mariadb
     container_name: wordpress
     expose:
-      - 9000
+      - 9001
     volumes:
       - wordpress_v:/var/www/html
     env_file:
@@ -42,9 +42,8 @@ services:
       - db_v:/var/lib/mysql
     env_file:
       - .env
-    restart: always #used to be "unless-stopped"
+    restart: always
     networks:
-    
       - my-network
 
 volumes:
