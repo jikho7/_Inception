@@ -16,17 +16,16 @@ RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Download and extract WordPress
-RUN wget https://wordpress.org/latest.tar.gz && \
+RUN mkdir -p /var/www/html
+RUN cd /var/www/html/ && wget https://wordpress.org/latest.tar.gz && \
     tar -xzf latest.tar.gz --strip-components=1 && \
     rm latest.tar.gz
 
 # Verifie si groupe et user www-data existe. si true, permet de continuer l execution
 RUN addgroup -S www-data || true && adduser -S -G www-data www-data || true
-RUN addgroup -S wordpress_user || true && adduser -S wordpress_user -G wordpress_user || true
 
 # CREATION FICHIER info.php
-RUN mkdir -p /var/www/html && \
-    echo "<?php phpinfo();?>" > /var/www/html/info.php
+RUN echo "<?php phpinfo();?>" > /var/www/html/info.php
 
 # Assign ownership to the www-data user
 RUN chown -R www-data:www-data /var/www/html

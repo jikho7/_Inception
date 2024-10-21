@@ -46,7 +46,7 @@ services:
     networks:
       - my-network
     expose :
-      - 3306
+      - 3307
 
 volumes:
   db_v:
