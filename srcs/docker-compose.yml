@@ -12,7 +12,7 @@ services:
     volumes:
       - wordpress_v:/var/www/html
     ports:
-      - "8080:80" # mapping des ports conteneur/hote mettre 443 nginx, host:container
+      - "8080:80" # mapping ports (mettre 443 nginx) host:container
     privileged: true
 
   wordpress:
@@ -33,20 +33,25 @@ services:
       - my-network
 
   mariadb: # WORKING ON
-    image: mariadb:11.5.2
-    # build:
-    #   context: ./requirements/mariadb
-    #   dockerfile: Dockerfile
+   # image: mariadb:11.5.2
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
     container_name: mariadb
+    ports:
+      - "3307:3306" # redirection de ports, port_host:port_container
     volumes:
       - db_v:/var/lib/mysql
-    env_file:
-      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+    # env_file:
+    #   - .env
     restart: always
     networks:
       - my-network
-    expose :
-      - 3306
 
 volumes:
   db_v:

@@ -1,34 +1,31 @@
 echo "------------------------------- MARIADB START -------------------------------------"
 
-sleep 15
+# Initialiser la base de données si elle n'existe pas
+if [ ! -d /var/lib/mysql/mysql ]; then
+    echo "Initializing database..."
+    mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
+    echo "Initialized the db..."
+fi
 
-# Initialisation de la base de données
-# mysqld --initialize --user=mysql --datadir=/var/lib/mysql;
+echo "initi database done"
 
-mkdir -p /run/mysqld
+sleep 5
 
-# chown -R mysql:mysql /var/lib/mysql;
-# chown -R mysql:mysql /run/mysqld;
-
-chown -R 100:101 /var/lib/mysql  # launch mariadb container, do docker exec -it mariadb bash and got uid=100(mysql) gid=101(mysql) groups=101(mysql),101(mysql)
-chown -R 100:101 /run/mysqld
-
-mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
-
-echo "Initialized the db..."
-
+echo "Running /db_file" >> /var/log/mysql/db_creation.log
 cat << EOF > /db_file
 DELETE FROM mysql.user WHERE User='';
 DROP DATABASE IF EXISTS test;
-DELETE FROM mysql.db WHERE Db='test';
 DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
-CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
-CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
-GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
+ALTER USER IF EXISTS 'root'@'localhost' IDENTIFIED BY "${MYSQL_ROOT_PASSWORD}";
+CREATE DATABASE IF NOT EXISTS "${MYSQL_DATABASE}";
+CREATE USER IF NOT EXISTS "${MYSQL_USER}"@"%" IDENTIFIED BY "${MYSQL_PASSWORD}";
+GRANT ALL PRIVILEGES ON "${MYSQL_DATABASE}".* TO "${MYSQL_USER}"@"%";
 FLUSH PRIVILEGES;
 EOF
 
 mysqld --user=mysql --bootstrap < /db_file
 
-exec /usr/bin/mysqld --user=mysql --console 
+echo "Starting MariaDB..."
+# Démarrer MariaDB
+exec /usr/bin/mysqld --user=mysql --console --log-error=/var/log/mysql/error.log
+echo "Mariadb started"

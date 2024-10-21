@@ -1,10 +1,10 @@
 #!/bin/sh
 
-MAX_RETRIES=60
+MAX_RETRIES=30
 COUNTER=0
 
 waitForMariaDB() {
-    until echo 'SELECT 1' | mysql -h"$WORDPRESS_DB_HOST" -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" &> /dev/null || [ $COUNTER -eq $MAX_RETRIES ]; do
+    until echo 'SELECT 1' | mysqld -h"$WORDPRESS_DB_HOST" -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" &> /dev/null || [ $COUNTER -eq $MAX_RETRIES ]; do
         COUNTER=$((COUNTER+1))
         echo "Waiting for MariaDB to be ready... (Attempt: $COUNTER)"
         sleep 1
