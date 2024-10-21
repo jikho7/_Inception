@@ -33,10 +33,10 @@ services:
       - my-network
 
   mariadb: # WORKING ON
-    image: mariadb:11.5.2
-    # build:
-    #   context: ./requirements/mariadb
-    #   dockerfile: Dockerfile
+    # image: mariadb:11.5.2
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
     container_name: mariadb
     volumes:
       - db_v:/var/lib/mysql

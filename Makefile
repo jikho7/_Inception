@@ -44,7 +44,8 @@ fclean: down
 	if [ -n "$$volumes" ]; then \
 		docker volume rm $$volumes; \
 	fi
-	# sudo rm -rf ~/data
+	sudo rm -rf ./srcs/data
+	mkdir -p ./srcs/data/wordpress ./srcs/data/mariadb
 
 re: fclean all
 

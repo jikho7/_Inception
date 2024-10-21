@@ -26,7 +26,7 @@ define( 'DB_NAME', getenv('MYSQL_DATABASE') );
 define( 'DB_USER', getenv('MYSQL_USER') );
 
 /** Database password */
-define( 'DB_PASSWORD', getenv('MYSQL_ROOT_PASSWORD'));
+define( 'DB_PASSWORD', getenv('MYSQL_PASSWORD'));
 
 /** Database hostname */
 define( 'DB_HOST', getenv('WORDPRESS_DB_HOST'));
@@ -67,7 +67,7 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  */
 $table_prefix = 'wp_';
 
-define( 'WP_DEBUG', false );
+define( 'WP_DEBUG', true );
 
 /* Add any custom values between this line and the "stop editing" line. */
 

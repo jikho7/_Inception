@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MAX_RETRIES=60
+MAX_RETRIES=30
 COUNTER=0
 
 waitForMariaDB() {
@@ -29,6 +29,7 @@ main() {
     cd /var/www/html
     waitForMariaDB
     echo "MariaDB is ready, going to run"
+    wp core install --url=http://localhost:8080 --title=SiteTitle --admin_user=username --admin_password=mypassword --admin_email=my@email.com
     checkPHPFPM
 }
 

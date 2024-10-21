@@ -7,6 +7,7 @@ RUN apk update && apk upgrade && \
     php \
     php-fpm \
     php-mysqli \
+    php-phar \
     wget \
     mariadb-client && \
     mkdir -p /var/www/wordpress /var/run/php
@@ -17,10 +18,11 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 
 # Download and extract WordPress
 RUN mkdir -p /var/www/html
-RUN cd /var/www/html/ && wget https://wordpress.org/latest.tar.gz && \
-    tar -xzf latest.tar.gz --strip-components=1 && \
-    rm latest.tar.gz
+# RUN cd /var/www/html/ && wget https://wordpress.org/latest.tar.gz && \
+#     tar -xzf latest.tar.gz --strip-components=1 && \
+#     rm latest.tar.gz
 
+RUN cd /var/www/html/ && /usr/local/bin/wp core download
 # Verifie si groupe et user www-data existe. si true, permet de continuer l execution
 RUN addgroup -S www-data || true && adduser -S -G www-data www-data || true
 
@@ -39,12 +41,6 @@ RUN chown www-data:www-data /etc/php81/php-fpm.d/wordpress_pool.conf && \
     chmod 644 /etc/php81/php-fpm.d/wordpress_pool.conf
 COPY wpscript.sh /wpscript.sh
 RUN chmod +x /wpscript.sh
-
-# Set environment variables for WordPress
-ENV WORDPRESS_DB_HOST=mariadb:3306 \
-    WORDPRESS_DB_USER=user \
-    WORDPRESS_DB_PASSWORD=1234 \
-    WORDPRESS_DB_NAME=wordpress
 
 # Expose the port for PHP-FPM
 EXPOSE 9001
