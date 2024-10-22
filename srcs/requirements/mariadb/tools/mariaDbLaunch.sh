@@ -1,5 +1,4 @@
 echo "------------------------------- MARIADB START -------------------------------------"
-#sleep 90000
 # Initialisation de la base de données
 # mysqld --initialize --user=mysql --datadir=/var/lib/mysql;
 
@@ -24,6 +23,21 @@ GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
 
-mysql --user=mysql < /db_file
+# mysqld = necessaire pour lancer le service mariadb = cuisto. & permet de lancer en arriere plan, a mettre a la fin de la commande
+mysqld --user=mysql &
 
-exec /usr/bin/mysqld --user=mysql --console 
+# execute ce qui est dans le script db_file, setting up de mariadb, creation des users, password etc.
+mysql < /db_file
+
+#supprimer mysqld sinon deux process en cours et ne fonctionne pas, killall + nom_du_process
+killall mysqld
+
+# lance le service en foreground, il est bloquant 
+½exec /usr/bin/mysqld --user=mysql --console 
+
+# NOTE mysql serveur et mysqld, deamon, pour le service
+# mysql = intermediaire entre client et la base de donnee
+# container = batiment, infrastrucutre
+# docker-compoes = quartier
+# port = coup de telepone
+# socket = au comptoir, dans le resto

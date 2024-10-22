@@ -47,7 +47,7 @@ services:
       - my-network
     expose :
       - 3307
-
+      
 volumes:
   db_v:
     driver: local

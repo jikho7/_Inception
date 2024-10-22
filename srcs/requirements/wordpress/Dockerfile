@@ -8,6 +8,7 @@ RUN apk update && apk upgrade && \
     php-mysqli \
     php-phar \ 
     wget \
+    php-mbstring \
     mariadb-client && \
     mkdir -p /var/www/wordpress /var/run/php
 # NOTE besoin de php-phar pour utliser wp-cli qui est ensemble d'outils en ligne de commande pour gérer les installations WordPress

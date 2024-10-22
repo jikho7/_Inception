@@ -3,7 +3,6 @@
 MAX_RETRIES=30
 COUNTER=0
 
-# NOTE mysql pour client et mysqld, deamon, pour le service
 waitForMariaDB() {
     until echo 'SELECT 1' | mysql -h"$WORDPRESS_DB_HOST" -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" &> /dev/null || [ $COUNTER -eq $MAX_RETRIES ]; do
         COUNTER=$((COUNTER+1))
@@ -41,10 +40,10 @@ main
 sleep 9000000
 
 # NOTE
-# 1 wp core download [--path=<path>] [--locale=<locale>] [--version=<version>] [--skip-content] [--force]        ->                     Ou le mettre, sa version,  DANS DOCKERFILE
+# 1 wp core download [--path=<path>] [--locale=<locale>] [--version=<version>] [--skip-content] [--force] 	## NOTE - delete and create data content       ->                     Ou le mettre, sa version,  DANS DOCKERFILE
 # 2 wp config create --dbname=<dbname> --dbuser=<dbuser> [--dbpass=<dbpass>]                                     ->                     WP-CONFIG.PHP FILE
 # 3 wp db create                                                                                                 ->                     Dans dockerfile Mariadb
-# 4 wp core install --url=wpclidemo.dev --title="WP-CLI" --admin_user=wpcli --admin_password=wpcli --admin_email=info@wp-cli.org  ->    WPSCIPT, rempli la database
+# 4 wp core install --url=wpclidemo.dev --title="WP-CLI" --admin_user=wpcli --admin_password=wpcli --admin_email=info@wp-cli.org  ->    	## NOTE - delete and create data contentWPSCIPT, rempli la database
 # core = system de wordpress, qui sera mis dans data/wordpress
 
 # En resume telecharger le systeme (core), faire config puis l'installer.

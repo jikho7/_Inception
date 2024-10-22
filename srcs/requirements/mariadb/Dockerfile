@@ -4,7 +4,8 @@ FROM alpine
 RUN apk update && apk add mariadb mariadb-client
 
 # Copier le script de démarrage dans le conteneur
-COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+# dossier de config pour alpine
+COPY conf/50-server.cnf /etc/my.cnf.d/mariadb-server.cnf 
 COPY tools/mariaDbLaunch.sh /usr/local/mariaDbLaunch.sh
 
 # Donner les permissions d'exécution au script
