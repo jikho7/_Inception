@@ -1,7 +1,5 @@
 NAME = inception
 PATH_DOCKER_COMPOSE = ./srcs/docker-compose.yml
-PATH_V_WORDPRESS = /home/jdefayes/data/wordpress
-PATH_V_MARIADB = /home/jdefayes/data/mariadb
 # PATH_TO_ENV_FILE = /Users/francois-xavier/Desktop/.private_env
 PATH_TO_ENV_FILE = ./srcs/.env
 
@@ -39,12 +37,13 @@ clean: down
 	docker system prune -a
 
 fclean: down
-	docker system prune -a --volumes
-	volumes=$(docker volume ls -q); \
+	docker system prune -a --volumes -f
+	volumes=$$(docker volume ls -q); \
 	if [ -n "$$volumes" ]; then \
-		docker volume rm $$volumes; \
+		docker volume rm -f $$volumes; \
 	fi
-	sudo rm -rf ./srcs/data
+# NOTE delete and create data content
+	sudo rm -rf ./srcs/data 
 	mkdir -p ./srcs/data/wordpress ./srcs/data/mariadb
 
 re: fclean all
@@ -57,7 +56,7 @@ delete-volumes :
     fi
     # Assigner les IDs de tous les volumes à la variable 'volumes'  # Vérifier si 'volumes' n'est pas vide
     volumes=$(docker volume ls -q); \
-    if [ -n "$$volumes" ]; alors \
+    if [ -n "$$volumes" ]; then \
         docker volume rm $$volumes; \
     fi
 
@@ -84,4 +83,4 @@ status :
 	@echo ""
 
 
-.PHONY: all clean fclean re status stop run run-daemon down build prepare delete-volumes
+.PHONY: all clean fclean re status stop run run-daemon down build prepare delete-volumes prune-volumes

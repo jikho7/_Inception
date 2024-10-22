@@ -67,6 +67,7 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  */
 $table_prefix = 'wp_';
 
+# NOTE permet d avoir plus de logs 
 define( 'WP_DEBUG', true );
 
 /* Add any custom values between this line and the "stop editing" line. */

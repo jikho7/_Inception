@@ -1,28 +1,25 @@
 # syntax=docker/dockerfile:1
 FROM alpine:3.17
 
-# Update and install the required packages for PHP 8
 RUN apk update && apk upgrade && \
     apk add --no-cache \
     php \
     php-fpm \
     php-mysqli \
-    php-phar \
+    php-phar \ 
     wget \
     mariadb-client && \
     mkdir -p /var/www/wordpress /var/run/php
+# NOTE besoin de php-phar pour utliser wp-cli qui est ensemble d'outils en ligne de commande pour gérer les installations WordPress
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-# Download and extract WordPress
+# NOTE 1 core download
 RUN mkdir -p /var/www/html
-# RUN cd /var/www/html/ && wget https://wordpress.org/latest.tar.gz && \
-#     tar -xzf latest.tar.gz --strip-components=1 && \
-#     rm latest.tar.gz
-
 RUN cd /var/www/html/ && /usr/local/bin/wp core download
+
 # Verifie si groupe et user www-data existe. si true, permet de continuer l execution
 RUN addgroup -S www-data || true && adduser -S -G www-data www-data || true
 
