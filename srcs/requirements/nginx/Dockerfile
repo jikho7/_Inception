@@ -30,7 +30,7 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/cert.pem -keyout /etc/nginx/ssl
 
  # Copier la configuration de php-fpm et le script de démarrage
 COPY conf/default.conf /etc/nginx/nginx.conf
-COPY nginx.sh /nginx.sh
+COPY tools/nginx.sh /nginx.sh
 RUN chmod +x /nginx.sh
 
 # Exposer le port pour PHP-FPM

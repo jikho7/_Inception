@@ -47,14 +47,14 @@ volumes:
     driver: local
     name: db_v
     driver_opts: # only if mounted volume
-      device: ./data/mariadb/
+      device: /home/jikho/data/mariadb
       type: none # none a volume handled by Docker, simple link to a local repo
       o: bind
   wordpress_v:
     driver: local
     name: wordpress_v
     driver_opts:
-      device: ./data/wordpress/
+      device: /home/jikho/data/wordpress
       type: none
       o: bind
 

@@ -36,7 +36,7 @@ COPY conf/wp-config.php /var/www/html/
 COPY conf/wordpress_pool.conf /etc/php82/php-fpm.d/wordpress_pool.conf
 RUN chown www-data:www-data /etc/php82/php-fpm.d/wordpress_pool.conf && \
     chmod 644 /etc/php82/php-fpm.d/wordpress_pool.conf
-COPY wpscript.sh /wpscript.sh
+COPY tools/wpscript.sh /wpscript.sh
 RUN chmod +x /wpscript.sh
 
 # Expose the port for PHP-FPM

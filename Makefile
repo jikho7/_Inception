@@ -43,8 +43,9 @@ fclean: down
 		docker volume rm -f $$volumes; \
 	fi
 # NOTE delete and create data content
-	sudo rm -rf ./srcs/data 
-	mkdir -p ./srcs/data/wordpress ./srcs/data/mariadb
+	sudo rm -rf /home/jikho/data 
+	mkdir -p /home/jikho/data/wordpress /home/jikho/data/mariadb
+# mettre jdefayes a la place de jikho
 
 re: fclean all
 
