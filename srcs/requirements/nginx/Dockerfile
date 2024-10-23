@@ -33,9 +33,7 @@ COPY conf/default.conf /etc/nginx/nginx.conf
 COPY tools/nginx.sh /nginx.sh
 RUN chmod +x /nginx.sh
 
-# Exposer le port pour PHP-FPM
 EXPOSE 80
-
 # Commande d'entrée
 CMD ["sh", "/nginx.sh"]
 
