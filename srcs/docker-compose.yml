@@ -1,6 +1,5 @@
 services:
   nginx:
-    #image: nginx:latest
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
@@ -11,17 +10,15 @@ services:
     container_name: nginx
     volumes:
       - ./requirements/nginx/conf/:/etc/nginx/conf.d/:ro # read only, bonne pratique
-     # - ./certbot/www:/var/www/certbot/:ro
       - wordpress_v:/var/www/html
     ports:
-      - "8080:80" # mapping des ports conteneur/hote mettre 443 nginx, host:container
+      - "8080:443" # mapping des ports conteneur/hote mettre 443 nginx, host:container
     privileged: true
 
   wordpress:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    #image: wordpress:php8.0-fpm
     depends_on:
       - mariadb
     container_name: wordpress
@@ -32,8 +29,7 @@ services:
     networks:
       - my-network
 
-  mariadb: # WORKING ON
-    # image: mariadb:11.5.2
+  mariadb:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile

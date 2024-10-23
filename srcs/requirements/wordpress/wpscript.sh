@@ -32,6 +32,8 @@ main() {
     echo "MariaDB is ready, going to run"
     # NOTE 4 core install
     wp core install --url=http://$DOMAIN_NAME:8080 --title=SiteTitle --admin_user=$WORDPRESS_ADMIN_USER --admin_password=$WORDPRESS_ADMIN_PASSWORD --admin_email=$WORDPRESS_ADMIN_EMAIL
+    wp user create $WORDPRESS_DB_USER $WORDPRESS_DB_USER_EMAIL --role=editor --user_pass=$WORDPRESS_DB_PASSWORD
+    wp user list
     checkPHPFPM
 }
 
