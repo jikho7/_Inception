@@ -31,7 +31,7 @@ main() {
     waitForMariaDB
     echo "MariaDB is ready, going to run"
     # NOTE 4 core install
-    wp core install --url=http://localhost:8080 --title=SiteTitle --admin_user=username --admin_password=mypassword --admin_email=my@email.com
+    wp core install --url=http://$DOMAIN_NAME:8080 --title=SiteTitle --admin_user=$WORDPRESS_ADMIN_USER --admin_password=$WORDPRESS_ADMIN_PASSWORD --admin_email=$WORDPRESS_ADMIN_EMAIL
     checkPHPFPM
 }
 
