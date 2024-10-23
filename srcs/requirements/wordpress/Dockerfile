@@ -1,5 +1,4 @@
-# syntax=docker/dockerfile:1
-FROM alpine:3.17
+FROM alpine:3.19
 
 RUN apk update && apk upgrade && \
     apk add --no-cache \
@@ -34,9 +33,9 @@ RUN chmod -R 755 /var/www/html
 
 # Copy the WordPress et Php configuration file et modifie permissions pour fichier wordpress_pool.conf 
 COPY conf/wp-config.php /var/www/html/
-COPY conf/wordpress_pool.conf /etc/php81/php-fpm.d/wordpress_pool.conf
-RUN chown www-data:www-data /etc/php81/php-fpm.d/wordpress_pool.conf && \
-    chmod 644 /etc/php81/php-fpm.d/wordpress_pool.conf
+COPY conf/wordpress_pool.conf /etc/php82/php-fpm.d/wordpress_pool.conf
+RUN chown www-data:www-data /etc/php82/php-fpm.d/wordpress_pool.conf && \
+    chmod 644 /etc/php82/php-fpm.d/wordpress_pool.conf
 COPY wpscript.sh /wpscript.sh
 RUN chmod +x /wpscript.sh
 

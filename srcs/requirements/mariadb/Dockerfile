@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:3.19
 
 # Mise à jour et installation de MariaDB
 RUN apk update && apk add mariadb mariadb-client 

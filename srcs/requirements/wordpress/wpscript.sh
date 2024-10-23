@@ -21,7 +21,8 @@ checkPHPFPM() {
         echo "PHP-FPM is running"
     else
         echo "PHP-FPM is not running, starting PHP-FPM"
-        /usr/sbin/php-fpm81 -F --fpm-config /etc/php81/php-fpm.conf # NOTE lance php-fpm81 avec le binaire
+        /usr/sbin/php-fpm82 -F --fpm-config /etc/php82/php-fpm.conf
+        # NOTE lance php-fpm82 avec le binaire
     fi
 }
 
