@@ -31,16 +31,15 @@ main() {
     waitForMariaDB
     echo "MariaDB is ready, going to run"
     # NOTE 4 core install
-    wp core install --url=http://$DOMAIN_NAME:8080 --title=SiteTitle --admin_user=$WORDPRESS_ADMIN_USER --admin_password=$WORDPRESS_ADMIN_PASSWORD --admin_email=$WORDPRESS_ADMIN_EMAIL
+    sleep 3
+    wp core install --url=$DOMAIN_NAME --title=SiteTitle --admin_user=$WORDPRESS_ADMIN_USER --admin_password=$WORDPRESS_ADMIN_PASSWORD --admin_email=$WORDPRESS_ADMIN_EMAIL
+    # permet de set up le site, choix de la langue et tous les autres parametres == wpinstall dans url naviguateur
     wp user create $WORDPRESS_DB_USER $WORDPRESS_DB_USER_EMAIL --role=editor --user_pass=$WORDPRESS_DB_PASSWORD
     wp user list
     checkPHPFPM
 }
 
 main
-
-# Keep the container running
-sleep 9000000
 
 # NOTE
 # 1 wp core download [--path=<path>] [--locale=<locale>] [--version=<version>] [--skip-content] [--force] 	## NOTE - delete and create data content       ->                     Ou le mettre, sa version,  DANS DOCKERFILE

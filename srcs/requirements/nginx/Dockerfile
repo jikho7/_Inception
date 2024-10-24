@@ -33,7 +33,8 @@ COPY conf/default.conf /etc/nginx/nginx.conf
 COPY tools/nginx.sh /nginx.sh
 RUN chmod +x /nginx.sh
 
-EXPOSE 80
+#EXPOSE 80
+
 # Commande d'entrée
 CMD ["sh", "/nginx.sh"]
 

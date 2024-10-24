@@ -12,7 +12,7 @@ services:
       - ./requirements/nginx/conf/:/etc/nginx/conf.d/:ro # read only, bonne pratique
       - wordpress_v:/var/www/html
     ports:
-      - "8080:80" # mapping des ports,  host:container
+      - "443:443" # mapping des ports,  host:container
     privileged: true
 
   wordpress:
@@ -48,7 +48,7 @@ volumes:
     name: db_v
     driver_opts: # only if mounted volume
       device: /home/jikho/data/mariadb
-      # device: /home/jdefayes/data/mariadb
+      # TODO device: /home/jdefayes/data/mariadb
       type: none # none a volume handled by Docker, simple link to a local repo
       o: bind
   wordpress_v:
@@ -56,7 +56,7 @@ volumes:
     name: wordpress_v
     driver_opts:
       device: /home/jikho/data/wordpress
-      # device: /home/jdefayes/data/wordpress
+      # TODO device: /home/jdefayes/data/wordpress
       type: none
       o: bind
 
