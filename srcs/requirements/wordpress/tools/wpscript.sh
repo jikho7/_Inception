@@ -39,5 +39,4 @@ fi
 # 3 wp db create                                                                                                 ->                     Dans dockerfile Mariadb
 # 4 wp core install --url=wpclidemo.dev --title="WP-CLI" --admin_user=wpcli --admin_password=wpcli --admin_email=info@wp-cli.org  ->    	## NOTE - delete and create data contentWPSCIPT, rempli la database
 # core = system de wordpress, qui sera mis dans data/wordpress
-
 # En resume telecharger le systeme (core), faire sa config puis l'installer.

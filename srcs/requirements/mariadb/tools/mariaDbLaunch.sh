@@ -1,6 +1,4 @@
 echo "------------------------------- MARIADB START -------------------------------------"
-# Initialisation de la base de données
-# mysqld --initialize --user=mysql --datadir=/var/lib/mysql;
 
 mkdir -p /run/mysqld
 
@@ -24,7 +22,6 @@ FLUSH PRIVILEGES;
 EOF
 
 sleep 1
-
 # mysqld = necessaire pour lancer le service mariadb = cuisto. & permet de lancer en arriere plan, a mettre a la fin de la commande
 mysqld --user=mysql &
 

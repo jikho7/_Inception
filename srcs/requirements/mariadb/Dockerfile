@@ -1,6 +1,5 @@
 FROM alpine:3.19
-
-# Mise à jour et installation de MariaDB
+# virer les RUN (qui ajoute une couche a l image), mettre && \
 RUN apk update && apk add mariadb mariadb-client 
 
 # Copier le script de démarrage dans le conteneur

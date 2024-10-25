@@ -1,23 +1,18 @@
 FROM alpine:3.19
-
-# Mettre à jour et installer les paquets nécessaires
+# virer les RUN (qui ajoute une couche a l image), mettre && \
 RUN apk update && apk upgrade && \
     apk add --no-cache \
     nginx \
     curl \
     openssl \
     mariadb-client \
-    && mkdir -p /var/www/wordpress /var/run/php
-
+    && mkdir -p /var/www/wordpress /var/run/php /etc/nginx/ssl && \
 # Verifie si groupe et user www-data existe. si true, permet de continuer l execution
-RUN addgroup -S www-data || true && adduser -S -G www-data www-data || true
-
+    addgroup -S www-data || true && adduser -S -G www-data www-data || true && \
 # Configuration des permissions
-RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
-
-# Creer repertoire pour ssl
-RUN mkdir -p /etc/nginx/ssl
-RUN openssl req -x509 -nodes -out /etc/nginx/ssl/cert.pem -keyout /etc/nginx/ssl/cert.key -subj "/C=SW/ST=VS/L=Lausane/O=42/OU=42/CN=jdefayes.42.ch/emailAddress=jdefayes@student.42lausanne.ch"
+    chown -R www-data:www-data /var/www && chmod -R 755 /var/www && \
+# Generating SSL key and cert
+    openssl req -x509 -nodes -out /etc/nginx/ssl/cert.pem -keyout /etc/nginx/ssl/cert.key -subj "/C=SW/ST=VS/L=Lausane/O=42/OU=42/CN=jdefayes.42.ch/emailAddress=jdefayes@student.42lausanne.ch"
     # -x509 -> certificat auto-signé.
     # -nodes : Indique que la clé privée ne doit pas être chiffrée (pas de mot de passe).
     # -keyout : Le fichier de sortie pour la clé privée.
@@ -32,5 +27,3 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/cert.pem -keyout /etc/nginx/ssl
 
 # Commande d'entrée
 CMD ["sh", "/nginx.sh"]
-
-# NOTE Certbot to obtain a free SSL certificate for Nginx.
