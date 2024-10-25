@@ -31,13 +31,22 @@ RUN chown -R www-data:www-data /var/www/html
 # Set permissions on directories and files
 RUN chmod -R 755 /var/www/html
 
-# Copy the WordPress et Php configuration file et modifie permissions pour fichier wordpress_pool.conf 
+# Copy the WordPress et Php configuration file et modifie permissions pour fichier wordpress_pool.conf
+# COPY conf/php.ini /etc/php82/
 COPY conf/wp-config.php /var/www/html/
 COPY conf/wordpress_pool.conf /etc/php82/php-fpm.d/wordpress_pool.conf
 RUN chown www-data:www-data /etc/php82/php-fpm.d/wordpress_pool.conf && \
     chmod 644 /etc/php82/php-fpm.d/wordpress_pool.conf
 COPY tools/wpscript.sh /wpscript.sh
 RUN chmod +x /wpscript.sh
+# RUN mkdir -p /var/www/html/wp-content/uploads && \
+#     chown -R www-data:www-data /var/www/html/wp-content/uploads && \
+#     chmod -R 755 /var/www/html/wp-content/uploads && \
+#     chmod g+s /var/www/html/wp-content/uploads
+# RUN chown www-data:www-data /tmp
+# RUN chmod 755 /tmp
+
+# RUN mv /var/www/html/wp-content/plugins /var/www/html/wp-content/plugins_disabled
 
 # Expose the port for PHP-FPM
 EXPOSE 9001

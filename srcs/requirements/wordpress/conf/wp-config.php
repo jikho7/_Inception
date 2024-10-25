@@ -72,6 +72,8 @@ define( 'WP_DEBUG', true );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+# Pour gerer l erreur "the uploaded file could not moved   to wp-content/upload"
+define( 'WP_MEMORY_LIMIT', '64M' );
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */

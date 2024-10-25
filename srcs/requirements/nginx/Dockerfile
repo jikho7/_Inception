@@ -9,7 +9,7 @@ RUN apk update && apk upgrade && \
     mariadb-client \
     && mkdir -p /var/www/wordpress /var/run/php
 
-    # Verifie si groupe et user www-data existe. si true, permet de continuer l execution
+# Verifie si groupe et user www-data existe. si true, permet de continuer l execution
 RUN addgroup -S www-data || true && adduser -S -G www-data www-data || true
 
 # Configuration des permissions
@@ -23,17 +23,12 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/cert.pem -keyout /etc/nginx/ssl
     # -keyout : Le fichier de sortie pour la clé privée.
     # -out : Le fichier de sortie pour le certificat.
     # -subj : Définit les informations du certificat (modifie selon tes besoins)
-# RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=SW/ST=VS/L=Lausane/O=42/OU=42/CN=francois-xavier.42.ch/emailAddress=francois-xavier@student.42.fr"
-# COPY /home/jikho/Documents/ssl_inception/cert.pem nginx:/etc/nginx/ssl/cert.pem
-# COPY /home/jikho/Documents/ssl_inception/cert.key nginx:/etc/nginx/ssl/cert.key
 # NOTE .pem .crt = meme chose, convention : .crt pour nginx // .key = cle privee
 
  # Copier la configuration de php-fpm et le script de démarrage
-COPY conf/default.conf /etc/nginx/nginx.conf
-COPY tools/nginx.sh /nginx.sh
-RUN chmod +x /nginx.sh
-
-#EXPOSE 80
+ COPY conf/default.conf /etc/nginx/nginx.conf
+ COPY tools/nginx.sh /nginx.sh
+ RUN chmod +x /nginx.sh
 
 # Commande d'entrée
 CMD ["sh", "/nginx.sh"]
