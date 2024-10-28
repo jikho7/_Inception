@@ -15,27 +15,26 @@ RUN apk update && apk upgrade && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp && \
 # NOTE 1 core download
-# RUN mkdir -p /var/www/html
     cd /var/www/html/ && /usr/local/bin/wp core download && \
 # Verifie si groupe et user www-data existe. si true, permet de continuer l execution
     addgroup -S www-data || true && adduser -S -G www-data www-data || true && \
 # CREATION FICHIER info.php, test si php est actif
     echo "<?php phpinfo();?>" > /var/www/html/info.php
-# Copy the WordPress et Php configuration file et modifie permissions pour fichier wordpress_pool.conf
+# Copy the WordPress et Php configuration file et modifie permissions pour fichier www.conf
 COPY conf/wp-config.php /var/www/html/
-COPY conf/wordpress_pool.conf /etc/php82/php-fpm.d/wordpress_pool.conf
-#RUN chown www-data:www-data /etc/php82/php-fpm.d/wordpress_pool.conf && \
-#RUN chmod 644 /etc/php82/php-fpm.d/wordpress_pool.conf
+COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
+#RUN chown www-data:www-data /etc/php82/php-fpm.d/www.conf && \
+#RUN chmod 644 /etc/php82/php-fpm.d/www.conf
 COPY tools/wpscript.sh /wpscript.sh
 RUN chmod +x /wpscript.sh && \
 # Assign ownership to the www-data user
-    chown -R www-data:www-data /var/www/html /etc/php82/php-fpm.d/wordpress_pool.conf && \
+    chown -R www-data:www-data /var/www/html /etc/php82/php-fpm.d/www.conf && \
 # Set permissions on directories
     chmod -R 755 /var/www/html && \
 # Set permissions on files
-    chmod 644 /etc/php82/php-fpm.d/wordpress_pool.conf
+    chmod 644 /etc/php82/php-fpm.d/www.conf
 # Expose the port for PHP-FPM
-EXPOSE 9001
+EXPOSE 9000
 # TODO EXPOSE 9000
 
 # Command to start PHP-FPM

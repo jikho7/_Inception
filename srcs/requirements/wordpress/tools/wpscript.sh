@@ -34,7 +34,7 @@ else
 fi
 
 # NOTE
-# 1 wp core download [--path=<path>] [--locale=<locale>] [--version=<version>] [--skip-content] [--force] 	## NOTE - delete and create data content       ->                     Ou le mettre, sa version,  DANS DOCKERFILE
+# 1 wp core download [--path=<path>] [--locale=<locale>] [--version=<version>] [--skip-content] [--force]       ->                     Ou le mettre, sa version,  DANS DOCKERFILE
 # 2 wp config create --dbname=<dbname> --dbuser=<dbuser> [--dbpass=<dbpass>]                                     ->                     WP-CONFIG.PHP FILE
 # 3 wp db create                                                                                                 ->                     Dans dockerfile Mariadb
 # 4 wp core install --url=wpclidemo.dev --title="WP-CLI" --admin_user=wpcli --admin_password=wpcli --admin_email=info@wp-cli.org  ->    	## NOTE - delete and create data contentWPSCIPT, rempli la database

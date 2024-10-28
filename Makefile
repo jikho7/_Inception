@@ -24,6 +24,7 @@ clean: down
 
 fclean: down
 	docker system prune -a --volumes -f
+#	prune supprime les objets non utiliser par docker, mettre $$ pour interpreter dans le contexte Makefile, -n == variable non vide
 	volumes=$$(docker volume ls -q); \
 	if [ -n "$$volumes" ]; then \
 		docker volume rm -f $$volumes; \
